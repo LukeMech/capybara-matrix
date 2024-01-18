@@ -1,11 +1,11 @@
 properties = {
     "prompt": "Very professional and looking really realistic capybara photo",
-    "x": 1920,
-    "y": 1080,
+    "x": 768,
+    "y": 768,
 
     "modelType": "stable-diffusion",
     "modelNames": ["2.1-768-ema-pruned"],
-    "inference_count": 5
+    "inference_count": 25
 }
 
 
@@ -23,13 +23,10 @@ download_models(
     }
 ) # Downloads models
 
-i = 0
 context.model_paths[properties["modelType"]] = resolve_downloaded_model_path(properties["modelType"], properties["modelNames"][0])
 load_model(context, properties["modelType"])
 
 images = generate_images(context, width=properties["x"], height=properties["y"], prompt=properties["prompt"], seed=42, num_inference_steps=properties["inference_count"])
-save_images(images, dir_path="./tmpImages/" + str(i))
- 
-i += 1
+save_images(images, dir_path="./tmpImages")
 
 log.info("Generated images!")
