@@ -36,12 +36,13 @@ jobs:
         pip install transformers==4.19.2 scann kornia==0.6.4 torchmetrics==0.6.0 diffusers invisible-watermark
         pip install git+https://github.com/arogozhnikov/einops.git
         pip install -e .
-        wget -nv -O "SD2.1-v.ckpt" https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
+        wget -nv -O "SD2.1-v.ckpt" "https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt"
+        ls -lh "SD2.1-v.ckpt"
 
     - name: Create image
       run: |
         cd StableDiffusion
-        python scripts/txt2img.py --prompt "very proffesional capybara photo" --ckpt "SD2.1-v.ckpt" --config "configs/stable-diffusion/v2-inference-v.yaml" --H 768 --W 768  
+        python scripts/txt2img.py --prompt "very professional capybara photo" --ckpt "SD2.1-v.ckpt" --config "configs/stable-diffusion/v2-inference-v.yaml" --H 768 --W 768  
 
         ls
         
