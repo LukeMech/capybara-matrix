@@ -4,6 +4,7 @@ properties = {
 
     "model_name": "sd_xl_turbo_1.0.safetensors",
     "model_url": "https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/",
+    "sdkit_modeltype": "stable-diffusion",
     "inference_count": 5
 }
  
@@ -29,9 +30,8 @@ if isinstance(data, list) and len(data) > 0:
 with urllib.request.urlopen(properties["model_url"]+properties["model_name"]) as response, open('./'+properties["model_name"], 'wb') as output_file:
     output_file.write(response.read())
 
-# context.model_paths[properties["modelType"]] = resolve_downloaded_model_path(properties["modelType"], properties["modelNames"][0])
-context.model_paths[properties["modelType"]] = './' + properties["model_name"]
-load_model(context, properties["modelType"])
+context.model_paths[properties["sdkit_modeltype"]] = './' + properties["model_name"]
+load_model(context, properties["sdkit_modeltype"])
 
 log.info("| Starting generation with:")
 log.info("Dimensions: " + str(properties["x"]) + "px x " + str(properties["y"]) + "px")
