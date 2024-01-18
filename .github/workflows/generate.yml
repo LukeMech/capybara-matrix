@@ -16,38 +16,22 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Clone StableDiffusion
-      uses: actions/checkout@v4
+    - name: Setup python
+      uses: actions/setup-python@v5
       with:
-        repository: 'lshqqytiger/stablediffusion-directml'
-        fetch-depth: 2
-        path: 'StableDiffusion'
-
-    - name: Set up conda
-      uses: conda-incubator/setup-miniconda@v3
-      with:
-        activate-environment: ldm
-        environment-file: StableDiffusion/environment.yaml
+        python-version: '3.10' 
 
     - name: Set up enviroment
       run: |
-        cd StableDiffusion
-        conda install pytorch==1.12.1 torchvision==0.13.1 -c pytorch
-        pip install accelerate transformers==4.19.2 scann scipy safetensors kornia==0.6.4 torchmetrics==0.6.0 diffusers invisible-watermark
-        pip install git+https://github.com/arogozhnikov/einops.git
-        pip install -e .
-        wget -nv -O "SD2.1-v.ckpt" "https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt"
+        pip install torch torchvision --extra-index-url https://download.pytorch.org/whl/cu116
+        pip install sdkit
 
     - name: Create image
       run: |
-        cd StableDiffusion
-        sed -i 's/\(use_fp16:\) True/\1 False/' "configs/stable-diffusion/v2-inference-v.yaml"
-        python scripts/txt2img.py --H 768 --W 768 --prompt "very professional capybara photo" --ckpt "SD2.1-v.ckpt" --config "configs/stable-diffusion/v2-inference-v.yaml"  
-
-        ls
+        python genImg.py
         
-    - name: (?) Push files
-      run: |
-        cd StableDiffusion
-        ls
-        
+    - name: Upload images
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'Images'
+        path: './tmpImages'
