@@ -1,9 +1,9 @@
 properties = {
-    "x": 768,
-    "y": 768,
+    "x": 1280,
+    "y": 720,
 
     "modelType": "stable-diffusion",
-    "modelNames": ["2.1-768-ema-pruned"],
+    "modelNames": ["2.1-768-nonema-pruned-safetensors"],
     "inference_count": 25
 }
 
