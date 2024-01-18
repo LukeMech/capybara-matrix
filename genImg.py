@@ -5,10 +5,12 @@ from sdkit.utils import save_images
 
 context = sdkit.Context()
 
-download_models(context, models={'stable-diffusion': '2.1-768-ema-pruned'}) # downloads the known "SD 1.5-pruned-emaonly" model
+download_models(model_type = 'stable-diffusion', model_id='2.1-768-ema-pruned') # downloads the known "SD 1.5-pruned-emaonly" model
 
-context.model_paths['stable-diffusion'] = resolve_downloaded_model_path(context, 'stable-diffusion', '1.5-pruned-emaonly')
+context.model_paths['stable-diffusion'] = resolve_downloaded_model_path('stable-diffusion', '2.1-768-ema-pruned')
 load_model(context, 'stable-diffusion')
 
-images = generate_images(context, width=512, height=512, prompt='very professional capybara photo', seed=42)
+images = generate_images(context, width=768, height=768, prompt='Very professional capybara photo', seed=42)
 save_images(images, dir_path='./tmpImages')
+
+log.info("Generated images!")
