@@ -3,7 +3,7 @@ from sdkit.models import download_models, resolve_downloaded_model_path, load_mo
 from sdkit.generate import generate_images
 from sdkit.utils import log, save_images
 
-context = sdkit.Context()
+context = sdkit.Context(device="cpu")
 
 download_models(
 
