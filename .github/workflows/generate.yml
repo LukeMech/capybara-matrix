@@ -33,9 +33,10 @@ jobs:
       run: |
         cd StableDiffusion
         conda install pytorch==1.12.1 torchvision==0.13.1 -c pytorch
-        pip install transformers==4.19.2 diffusers invisible-watermark
+        pip install transformers==4.19.2 scann kornia==0.6.4 torchmetrics==0.6.0 diffusers invisible-watermark
+        pip install git+https://github.com/arogozhnikov/einops.git
         pip install -e .
-        wget -O "SD2.1-v.ckpt" https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
+        curl -o "SD2.1-v.ckpt" https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
 
     - name: Create image
       run: |
