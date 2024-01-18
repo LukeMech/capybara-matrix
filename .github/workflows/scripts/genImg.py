@@ -3,21 +3,8 @@ properties = {
     "x": 1920,
     "y": 1080,
 
-    "models": {
-        "codeformer": [],
-        
-        "controlnet": [],
-
-        "gfpgan": [],
-
-        "realesrgan": [],
-
-        "stable_diffusion": [
-            "d-xl-refiner-1.0",
-        ],
-
-        "vae": []
-    },
+    "modelType": "stable-diffusion",
+    "modelNames": ["sd-xl-refiner-1.0"],
     "inference_count": 5
 }
 
@@ -30,25 +17,19 @@ from sdkit.utils import log, save_images
 context = sdkit.Context()
 context.device = "cpu"
 
-
-modelsToDownload = {}
-
-for model_name, model_path in properties["models"].items():
-    if model_path:
-        modelsToDownload[model_name] = model_path
-
 download_models(
-    modelsToDownload
+    models={
+        properties["modelType"]: properties["modelNames"]
+    }
 ) # Downloads models
 
 i = 0
-for modelType, _ in properties["models"].items():
-    for model in properties["models"][modelType].items():
-        context.model_paths[modelType] = resolve_downloaded_model_path(modelType, model)
-        load_model(context, modelType)
+context.model_paths["stable-diffusion"] = resolve_downloaded_model_path("stable-diffusion", "2.1-768-ema-pruned")
+load_model(context, "stable-diffusion")
 
-        images = generate_images(context, width=properties["x"], height=properties["y"], prompt=properties["prompt"], seed=42, num_inference_steps=properties["inference_count"])
-        save_images(images, dir_path="./tmpImages/" + str(i))
-        i += 1
+images = generate_images(context, width=properties["x"], height=properties["y"], prompt=properties["prompt"], seed=42, num_inference_steps=properties["inference_count"])
+save_images(images, dir_path="./tmpImages/" + str(i))
+ 
+i += 1
 
 log.info("Generated images!")
