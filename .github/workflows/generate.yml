@@ -20,12 +20,19 @@ jobs:
         
     - name: Run generator scripts
       run: |
-        cd .github/workflows/scripts
-        sh install.sh
-        python genImg.py
+        sh scripts/install.sh
+        python scripts/genImg.py
+
+        ls
         
-    - name: Upload images
+    - name: Upload images (./)
       uses: actions/upload-artifact@v4
       with:
         name: 'Images'
         path: './tmpImages'
+
+    - name: Upload images (./scripts/)
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'Images'
+        path: './scripts/tmpImages'

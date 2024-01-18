@@ -5,7 +5,7 @@ properties = {
 
     "modelType": "stable-diffusion",
     "modelNames": ["sd-xl-refiner-1.0"],
-    "inference_count": 5
+    "inference_count": 1
 }
 
 
