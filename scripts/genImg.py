@@ -2,22 +2,15 @@ properties = {
     "x": 1280,
     "y": 720,
 
-    "modelType": "stable-diffusion",
-    # "modelNames": ["2.1-768-nonema-pruned-safetensors"],
-    "modelNames": ["sd_xl_turbo_1.0-safetensors"],
-    "inference_count": 25
+    "model_name": "sd_xl_turbo_1.0.safetensors",
+    "model_url": "https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/",
+    "inference_count": 5
 }
-
-model_url = "https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0_fp16.safetensors"
  
-import sdkit
+import sdkit, json, random, sys, os, urllib.request
 from sdkit.generate import generate_images
 from sdkit.models import download_models, load_model, resolve_downloaded_model_path
 from sdkit.utils import log, save_images
-import json
-import random
-import sys
-import urllib.request
 
 context = sdkit.Context()
 context.device = "cpu"
@@ -33,16 +26,11 @@ if isinstance(data, list) and len(data) > 0:
     # Randomly choose one element from the array
     prompt = random.choice(data)
 
-# download_models(
-#     models={
-#         properties["modelType"]: properties["modelNames"]
-#     }
-# ) # Downloads models
-with urllib.request.urlopen(model_url) as response, open('./sd_xl_turbo_1.0_fp16.safetensors', 'wb') as output_file:
+with urllib.request.urlopen(properties["model_url"]+properties["model_name"]) as response, open('.', 'wb') as output_file:
     output_file.write(response.read())
 
 # context.model_paths[properties["modelType"]] = resolve_downloaded_model_path(properties["modelType"], properties["modelNames"][0])
-context.model_paths[properties["modelType"]] = './sd_xl_turbo_1.0_fp16.safetensors'
+context.model_paths[properties["modelType"]] = './' + properties["model_name"]
 load_model(context, properties["modelType"])
 
 log.info("| Starting generation with:")
@@ -56,5 +44,7 @@ log.info("Inference count: " + str(properties["inference_count"]))
 
 images = generate_images(context, width=properties["x"], height=properties["y"], prompt=prompt, seed=42, num_inference_steps=properties["inference_count"])
 save_images(images, dir_path="./tmp/images")
+
+os.remove('./' + properties["model_name"])
 
 log.info("Generated images!")
