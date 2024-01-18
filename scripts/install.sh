@@ -1,2 +1,2 @@
 pip install --upgrade pip
-pip install sdkit
+pip install sdkit rwkv

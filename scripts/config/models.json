@@ -1,0 +1,19 @@
+{
+    "sd_xl_turbo_1.0": {
+       "repo_url": "https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0_fp16.safetensors",
+       "sdkit_modeltype": "stable-diffusion",
+       "inference_count": 13
+    },
+
+    "v2-1_768": {
+        "repo_url": "https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors",
+        "sdkit_modeltype": "stable-diffusion",
+        "inference_count": 25
+     },
+
+     "v1-5": {
+        "repo_url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors",
+        "sdkit_modeltype": "stable-diffusion",
+        "inference_count": 25
+     }
+}

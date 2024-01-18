@@ -13,7 +13,11 @@ jobs:
 
     strategy:
       matrix:
-        number: [1, 2, 3, 4, 5]
+        model: [
+          sd_xl_turbo_1.0, 
+          v2-1_768,
+          v1-5
+        ]
 
     runs-on: ubuntu-latest
 
@@ -29,13 +33,14 @@ jobs:
     - name: Run generator scripts
       run: |
         sh scripts/install.sh
-        python scripts/genImg.py scripts/json
-        mv tmp/images/image_0.jpeg tmp/images/$(date '+%Y%m%d%H%M%S')-${{ matrix.number }}.jpeg
+        python scripts/genPrompts.py
+        python scripts/genImg.py scripts/config ${{ matrix.model }}
+        mv tmp/images/image_0.jpeg tmp/images/$(date '+%Y%m%d%H%M%S')-${{ strategy.job-index }}.jpeg
 
     - name: Upload image
       uses: actions/upload-artifact@v4
       with:
-        name: capybara-${{ matrix.number }}
+        name: capybara-${{ strategy.job-index }}
         path: ./tmp/images
 
 
@@ -58,8 +63,8 @@ jobs:
     - name: Push new images
       run: |
         mkdir -p ./images/capy/
-        cp tmp/*/*.jpeg ./images/capy/
-        rm -rf tmp
+        cp out/*/*.jpeg ./data/images/capy/
+        rm -rf out
         git config --global user.name image-gen
         git config --global user.email github-actions@github.com
         git add .
