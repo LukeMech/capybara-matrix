@@ -38,14 +38,7 @@ for model_name, model_path in properties["models"].items():
         modelsToDownload[model_name] = model_path
 
 download_models(
-    models={
-        "codeformer": properties["models"]["codeformer"],
-        "controlnet": properties["models"]["controlnet"],
-        "gfpgan": properties["models"]["gfpgan"],
-        "realesrgan": properties["models"]["realesrgan"],
-        "stable_diffusion": properties["models"]["stable_diffusion"],
-        "vae": properties["models"]["vae"]
-    }
+    modelsToDownload
 ) # Downloads models
 
 i = 0
