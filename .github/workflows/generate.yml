@@ -28,29 +28,24 @@ jobs:
       with:
         activate-environment: ldm
         environment-file: StableDiffusion/environment.yaml
-        
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.8'
 
     - name: Set up enviroment
       run: |
         conda install pytorch==1.12.1 torchvision==0.13.1 -c pytorch
+        conda activate ldm
         pip install transformers==4.19.2 diffusers invisible-watermark
         pip install -e .
-        cd StableDiffusion
         wget -O "SD2.1-v.ckpt" https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
 
     - name: Create image
       run: |
-        cd StableDiffusion
+        conda activate ldm
         python scripts/txt2img.py --prompt "very proffesional capybara photo" --ckpt "SD2.1-v.ckpt" --config "configs/stable-diffusion/v2-inference-v.yaml" --H 768 --W 768  
 
         ls
         
     - name: (?) Push files
       run: |
-        rm -rf StableDiffusion
+        cd StableDiffusion
         ls
         
