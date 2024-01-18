@@ -19,7 +19,7 @@ jobs:
     - name: Clone StableDiffusion
       uses: actions/checkout@v4
       with:
-        repository: 'https://github.com/Stability-AI/stablediffusion'
+        repository: 'Stability-AI/stablediffusion'
         fetch-depth: 2
         path: 'StableDiffusion'
 
