@@ -24,8 +24,8 @@ download_models(
 ) # Downloads models
 
 i = 0
-context.model_paths["stable-diffusion"] = resolve_downloaded_model_path("stable-diffusion", "2.1-768-ema-pruned")
-load_model(context, "stable-diffusion")
+context.model_paths[properties["modelType"]] = resolve_downloaded_model_path(properties["modelType"], properties["modelNames"][0])
+load_model(context, properties["modelType"])
 
 images = generate_images(context, width=properties["x"], height=properties["y"], prompt=properties["prompt"], seed=42, num_inference_steps=properties["inference_count"])
 save_images(images, dir_path="./tmpImages/" + str(i))
