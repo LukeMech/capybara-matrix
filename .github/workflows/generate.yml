@@ -5,10 +5,7 @@ on: [workflow_dispatch, push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}  
+    runs-on: macos-latest
 
     steps:
     - name: Clone repository
