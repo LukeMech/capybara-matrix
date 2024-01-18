@@ -31,6 +31,12 @@ context = sdkit.Context()
 context.device = "cpu"
 
 
+modelsToDownload = {}
+
+for model_name, model_path in properties["models"].items():
+    if model_path:
+        modelsToDownload[model_name] = model_path
+
 download_models(
     models={
         "codeformer": properties["models"]["codeformer"],
@@ -43,8 +49,8 @@ download_models(
 ) # Downloads models
 
 i = 0
-for modelType in properties["models"]:
-    for model in modelType:
+for modelType, _ in properties["models"].items():
+    for model in properties["models"][modelType].items():
         context.model_paths[modelType] = resolve_downloaded_model_path(modelType, model)
         load_model(context, modelType)
 
