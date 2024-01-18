@@ -1,11 +1,11 @@
 properties = {
-    "prompt": "Very professional capybara photo",
+    "prompt": "Very professional and looking really realistic capybara photo",
     "x": 1920,
     "y": 1080,
 
     "modelType": "stable-diffusion",
-    "modelNames": ["sd-xl-refiner-1.0"],
-    "inference_count": 1
+    "modelNames": ["2.1-768-ema-pruned"],
+    "inference_count": 5
 }
 
 
