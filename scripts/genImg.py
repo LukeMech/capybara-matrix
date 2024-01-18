@@ -40,15 +40,15 @@ context.model_paths[properties["modelType"]] = resolve_downloaded_model_path(pro
 load_model(context, properties["modelType"])
 
 log.info("| Starting generation with:")
-log.info("Dimensions: " + str(properties["x"]) + "px x" + str(properties["y"]) + "px")
+log.info("Dimensions: " + str(properties["x"]) + "px x " + str(properties["y"]) + "px")
 log.info("Request: " + prompt)
 
 log.info("| Using:")
 log.info("Model type: " + properties["modelType"])
-log.info("Model name: " + properties["modelNames"])
+log.info("Model name: " + properties["modelNames"][0])
 log.info("Inference count: " + properties["inference_count"])
 
-images = generate_images(context, width=properties["x"], height=properties["y"], prompt=random_element, seed=42, num_inference_steps=properties["inference_count"])
+images = generate_images(context, width=properties["x"], height=properties["y"], prompt=prompt, seed=42, num_inference_steps=properties["inference_count"])
 save_images(images, dir_path="./tmpImages")
 
 log.info("Generated images!")
