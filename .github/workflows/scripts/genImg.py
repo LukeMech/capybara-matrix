@@ -5,10 +5,15 @@ from sdkit.utils import log, save_images
 
 context = sdkit.Context()
 
-download_models(model_type="stable-diffusion", model_id="sd-xl-refiner-1.0") # Downloads model
+download_models(
 
-context.model_paths["stable-diffusion"] = resolve_downloaded_model_path("stable-diffusion", "sd-xl-refiner-1.0")
-load_model(context, "stable-diffusion")
+    models={
+        "stable-diffusion": ["sd-xl-refiner-1.0"],
+    }
+) # Downloads models
+
+context.model_paths["sd-xl-refiner"] = resolve_downloaded_model_path("stable-diffusion", "sd-xl-refiner-1.0")
+load_model(context, "sd-xl-refiner")
 
 images = generate_images(context, width=768, height=768, prompt="Very professional capybara photo", seed=42)
 save_images(images, dir_path="./tmpImages")
