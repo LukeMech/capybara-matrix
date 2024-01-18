@@ -25,7 +25,7 @@ jobs:
     - name: Run generator scripts
       run: |
         sh scripts/install.sh
-        python scripts/genImg.py
+        python scripts/genImg.py scripts/prompts.json
         mv tmpImages/image_0.jpeg tmpImages/$(date '+%Y%m%d%H%M%S').jpeg
 
     - name: Upload image
