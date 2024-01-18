@@ -26,7 +26,7 @@ if isinstance(data, list) and len(data) > 0:
     # Randomly choose one element from the array
     prompt = random.choice(data)
 
-with urllib.request.urlopen(properties["model_url"]+properties["model_name"]) as response, open('.', 'wb') as output_file:
+with urllib.request.urlopen(properties["model_url"]+properties["model_name"]) as response, open('./'+properties["model_name"], 'wb') as output_file:
     output_file.write(response.read())
 
 # context.model_paths[properties["modelType"]] = resolve_downloaded_model_path(properties["modelType"], properties["modelNames"][0])
@@ -38,13 +38,13 @@ log.info("Dimensions: " + str(properties["x"]) + "px x " + str(properties["y"]) 
 log.info("Request: " + prompt)
 
 log.info("| Using:")
-log.info("Model type: " + properties["modelType"])
-log.info("Model name: " + properties["modelNames"][0])
+log.info("Model: " + properties["model_name"])
+log.info("Downloaded from: " + properties["model_url"])
 log.info("Inference count: " + str(properties["inference_count"]))
 
 images = generate_images(context, width=properties["x"], height=properties["y"], prompt=prompt, seed=42, num_inference_steps=properties["inference_count"])
 save_images(images, dir_path="./tmp/images")
 
-os.remove('./' + properties["model_name"])
+os.remove('./'+properties["model_name"])
 
 log.info("Generated images!")
