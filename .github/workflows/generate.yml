@@ -29,7 +29,7 @@ jobs:
     - name: Run generator scripts
       run: |
         sh scripts/install.sh
-        python scripts/genImg.py scripts/prompts.json
+        python scripts/genImg.py scripts/json
         mv tmp/images/image_0.jpeg tmp/images/$(date '+%Y%m%d%H%M%S')-${{ matrix.number }}.jpeg
 
     - name: Upload image

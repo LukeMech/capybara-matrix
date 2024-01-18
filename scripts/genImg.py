@@ -1,16 +1,11 @@
 properties = {
     "x": 1280,
     "y": 720,
-
-    "model_name": "sd_xl_turbo_1.0.safetensors",
-    "model_url": "https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/",
-    "sdkit_modeltype": "stable-diffusion",
-    "inference_count": 5
 }
  
 import sdkit, json, random, sys, os, urllib.request
 from sdkit.generate import generate_images
-from sdkit.models import download_models, load_model, resolve_downloaded_model_path
+from sdkit.models import load_model
 from sdkit.utils import log, save_images
 
 context = sdkit.Context()
@@ -20,31 +15,36 @@ if len(sys.argv) != 2:
     print("Json prompts file path missing!")
     sys.exit(1)
 
-with open(sys.argv[1], 'r') as file:
+# Choose prompt
+with open(sys.argv[1] + '/prompts.json', 'r') as file:
     data = json.load(file)
-
 if isinstance(data, list) and len(data) > 0:
-    # Randomly choose one element from the array
     prompt = random.choice(data)
 
-with urllib.request.urlopen(properties["model_url"]+properties["model_name"]) as response, open('./'+properties["model_name"], 'wb') as output_file:
+# Choose AI model
+with open(sys.argv[1] + '/models.json', 'r') as file:
+    data = json.load(file)
+if isinstance(data, list) and len(data) > 0:
+    model = random.choice(data)
+
+with urllib.request.urlopen(model["repo_url"]+model["name"]) as response, open('./'+model["name"], 'wb') as output_file:
     output_file.write(response.read())
 
-context.model_paths[properties["sdkit_modeltype"]] = './' + properties["model_name"]
-load_model(context, properties["sdkit_modeltype"])
+context.model_paths[model["sdkit_modeltype"]] = './' + model["name"]
+load_model(context, model["sdkit_modeltype"])
 
 log.info("| Starting generation with:")
 log.info("Dimensions: " + str(properties["x"]) + "px x " + str(properties["y"]) + "px")
 log.info("Request: " + prompt)
 
 log.info("| Using:")
-log.info("Model: " + properties["model_name"])
-log.info("Downloaded from: " + properties["model_url"])
-log.info("Inference count: " + str(properties["inference_count"]))
+log.info("Model: " + model["name"])
+log.info("Downloaded from: " + model["repo_url"])
+log.info("Inference count: " + str(model["inference_count"]))
 
-images = generate_images(context, width=properties["x"], height=properties["y"], prompt=prompt, seed=42, num_inference_steps=properties["inference_count"])
+images = generate_images(context, width=properties["x"], height=properties["y"], prompt=prompt, seed=42, num_inference_steps=model["inference_count"])
 save_images(images, dir_path="./tmp/images")
 
-os.remove('./'+properties["model_name"])
+os.remove('./'+model["name"])
 
 log.info("Generated images!")
