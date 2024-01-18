@@ -21,6 +21,12 @@ jobs:
       with:
         fetch-depth: 2
         path: 'StableDiffusion'
+    
+    - name: Check
+      run: |
+        ls
+        cd StableDiffusion
+        ls
 
     - name: Set up conda
       uses: conda-incubator/setup-miniconda@v3
