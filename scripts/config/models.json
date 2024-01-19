@@ -1,5 +1,5 @@
 {
-    "sd_xl_turbo_1.0_fp16.safetensors": {
+    "sd_xl_turbo_1.0.safetensors": {
        "repo_url": "https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0.safetensors",
        "inference_count": 15
     },
