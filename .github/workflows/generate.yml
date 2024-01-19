@@ -94,6 +94,8 @@ jobs:
         export CONFIGPATH=config
         export MATRIXMODEL=${{ matrix.model }}
         export JOBINDEX=${{ strategy.job-index }}
+        export RUNID=${{ github.run_id }}
+        export RUNNUM=${{ github.run_number }}
 
         sh image.sh   
 
