@@ -1,5 +1,5 @@
 pip install --upgrade pip
 pip install rwkv torch numpy
 
-mkdir -p ~/tmp
+mkdir -p $HOME/tmp
 python prompt.py $CONFIGPATH 

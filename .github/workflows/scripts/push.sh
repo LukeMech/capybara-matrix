@@ -1,6 +1,6 @@
 mkdir -p ./images/capy/
-cp ~/tmp/*/*.jpeg ./data/images/capy/
-cp ~/tmp/*/prompt.txt ~/prompt.txt
+cp $HOME/tmp/*/*.jpeg ./data/images/capy/
+cp $HOME/tmp/*/prompt.txt $HOME/prompt.txt
 python push.py $CONFIGPATH
 
 git config --global user.name image-gen
