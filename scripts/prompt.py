@@ -1,4 +1,4 @@
-import g4f, json, sys, random
+import g4f, json, sys
 
 if len(sys.argv) != 2:
     print("Json config file path missing!")

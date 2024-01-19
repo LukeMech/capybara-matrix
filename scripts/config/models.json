@@ -20,6 +20,6 @@
 
      "upscaler": {
          "inference_script": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/master/inference_realesrgan.py",
-         "name": "RealESRGAN_x4plus"
+         "repo_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth"
       }
 }

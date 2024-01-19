@@ -1,5 +1,5 @@
-mkdir -p ./data/images/capy/
-cp ./tmp/*/*.jpeg ../../../data/images/capy/
+mkdir -p ../data/images/capy/
+cp ./tmp/*/*.jpeg ../data/images/capy/
 cp ./tmp/*/prompt.txt ./prompt.txt
 python push.py $CONFIGPATH
 rm -rf ./tmp
