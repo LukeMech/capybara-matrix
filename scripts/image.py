@@ -61,6 +61,6 @@ save_images(image, dir_path="./tmp/image/")
 unload_model(context, 'stable-diffusion')
 
 jpeg_image = Image.open(glob.glob('./tmp/image/*.jpeg')[0])
-jpeg_image.save("./tmp/image/1.jpg", format="JPG")
+jpeg_image.save("./tmp/image/1.jpg", format="JPEG")
 
 print("Generated default image, starting upscaler...")
