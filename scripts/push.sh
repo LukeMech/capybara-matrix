@@ -1,3 +1,4 @@
+mkdir -p ../data/images/capy
 cp ./tmp/*.jpeg ../data/images/capy/
 ls ../data/images/capy
 ls ../
