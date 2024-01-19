@@ -7,6 +7,7 @@ python push.py $CONFIGPATH
 rm -rf ./tmp
 rm -rf ./prompt.txt
 
+cd ..
 git config --global user.name image-gen
 git config --global user.email github-actions@github.com
 git add .
