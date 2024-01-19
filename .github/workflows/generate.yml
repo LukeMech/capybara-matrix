@@ -46,7 +46,7 @@ jobs:
 
           if [ ${{ github.event.inputs.non_autonomous }} == true ]; then
             echo "Using prompt from input, enhancing..."
-            export PROMPT=${{ github.event.inputs.prompt }}
+            export PROMPT="${{ github.event.inputs.prompt }}"
           fi
 
           sh prompt.sh 
