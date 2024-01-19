@@ -9,23 +9,6 @@ with open(sys.argv[1] + '/models.json', 'r') as file:
     data = json.load(file)
     model = data['upscaler']
 
-with urllib.request.urlopen(model["repo_url"]) as response, open('./tmp/model.pth', 'wb') as output_file:
-    print('Downloading [' + model["repo_url"] + "]...")
-     # Get the total file size in bytes
-    file_size = int(response.getheader('Content-Length', 0))
-    # Initialize the tqdm progress bar
-    progress_bar = tqdm(total=file_size, unit='B', unit_scale=True)
-    # Download and write to the local file with progress update
-    while True:
-        buffer = response.read(8192)  # Adjust the buffer size as needed
-        if not buffer:
-            break
-        output_file.write(buffer)
-        progress_bar.update(len(buffer))
-    # Close the progress bar
-    progress_bar.close()
-    output_file.write(response.read())
-
 with urllib.request.urlopen(model["inference_script"]) as response, open('./tmp/inference_script.json', 'wb') as output_file:
     print('Downloading [' + model["inference_script"] + "]...")
      # Get the total file size in bytes
@@ -43,11 +26,11 @@ with urllib.request.urlopen(model["inference_script"]) as response, open('./tmp/
     progress_bar.close()
     output_file.write(response.read())
 
-print("| Starting upscaler...")
+print("| Starting downloaded script...")
 
-print("| Using:")
-print("Model downloaded from: " + model["repo_url"])
+print("From: " + model["inference_script"])
+print("Model name: " + model["name"])
 
-subprocess.run(['python', './tmp/inference_script.json', '-n', 'model', '-i', './tmp/image/gen/' '-o', './tmp/image/', '--fp32'], check=True)
+subprocess.run(['python', './tmp/inference_script.json', '-n', model["name"], '-i', './tmp/image/gen/' '-o', './tmp/image/', '--fp32'], check=True)
 
 print("Upscaled image!")

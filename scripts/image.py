@@ -1,6 +1,6 @@
 properties = {
-    "x": 960,
-    "y": 540,
+    "x": 1280,
+    "y": 720
 }
  
 import sdkit, json, sys, urllib.request
