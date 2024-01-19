@@ -5,7 +5,7 @@ pip install -U sdkit tqdm realesrgan
 mkdir -p ./tmp/image/gen
 mkdir -p ./tmp/out
 python image.py $CONFIGPATH $MATRIXMODEL
-for file in ./tmp/image/gen/*.jpeg; do
+for file in ./tmp/image/*.jpeg; do
     mv "$file" "${file%.jpeg}.jpg"
 done
 
