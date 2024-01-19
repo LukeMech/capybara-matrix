@@ -3,7 +3,13 @@ properties = {
     "y": 720
 }
  
-import json, sys
+import json, sys, glob
+from tqdm import tqdm
+from sdkit.generate import generate_images
+from sdkit.models import load_model, unload_model
+from sdkit.utils import save_images
+import sdkit, urllib.request
+from PIL import Image
 
 if len(sys.argv) != 3:
     print("Json config file path or model name missing!")
@@ -16,31 +22,6 @@ with open(sys.argv[1] + '/models.json', 'r') as file:
     data = json.load(file)
     model = data[sys.argv[2]]
     model["name"] = sys.argv[2]
-
-if "online" in model["name"]:
-    import subprocess
-    print("| Downloading g4f package..")
-    subprocess.run("pip install -U g4f", shell=True)
-    import g4f
-
-    print("| Starting generation with:")
-    print("Request: " + prompt)
-
-    print("| Using:")
-    print("Online model: " + model["name"].replace("online-", ""))
-
-    g4f.debug.logging = True
-    response = g4f.ChatCompletion.create(
-        model=g4f.models.default,
-        messages=[{"role": "user", "content": "GENERATE IMAGE! " + prompt}],
-        provider=g4f.Provider.Bing
-    )
-    
-from tqdm import tqdm
-from sdkit.generate import generate_images
-from sdkit.models import load_model, unload_model
-from sdkit.utils import save_images
-import sdkit, urllib.request
 
 context = sdkit.Context()
 context.device = "cpu"
@@ -78,5 +59,8 @@ image = generate_images(context, width=properties["x"], height=properties["y"], 
 save_images(image, dir_path="./tmp/image/")
 
 unload_model(context, 'stable-diffusion')
+
+jpeg_image = Image.open(glob.glob('./tmp/image/*.jpeg')[0])
+jpeg_image.save("./tmp/image/1.png", format="PNG")
 
 print("Generated default image, starting upscaler...")

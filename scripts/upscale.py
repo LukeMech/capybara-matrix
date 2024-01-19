@@ -50,7 +50,7 @@ print("| Starting downloaded script...")
 print("From: " + model["inference_script"])
 print("Using downloaded model: " + model["repo_url"])
 
-command = f'python ./tmp/inference_script.py -i ./tmp/image/1.jpg --model_path ./tmp/model.pth -o ./out/ --fp32'
+command = f'python ./tmp/inference_script.py -i ./tmp/image/1.png --model_path ./tmp/model.pth -o ./out/ --fp32'
 subprocess.run(command, shell=True)
 
 print("Upscaled image!")

@@ -37,14 +37,14 @@ jobs:
       run: |
         export CONFIGPATH=config
 
-        if ${{ github.event.inputs.prompt && !github.event.inputs.enhance_prompt }}; then
+        if [ ${{ github.event.inputs.prompt && !github.event.inputs.enhance_prompt }} ]; then
 
           echo "Using prompt from input"
           echo "${{ github.event.inputs.prompt }}" > prompt.txt
 
         else
 
-          if ${{ github.event.inputs.non_autonomous }}; then
+          if [ ${{ github.event.inputs.non_autonomous }} ]; then
             echo "Using prompt from input, enhancing..."
             export PROMPT=${{ github.event.inputs.prompt }}
           fi
