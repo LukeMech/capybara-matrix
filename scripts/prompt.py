@@ -14,7 +14,7 @@ ctx = data["prompt"] + "It must be EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE BE
 
 # Enhance non-auto prompt
 if len(sys.argv) == 3:
-    ctx = sys.argv[2] + "It must be EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE BETWEEN \" MARKS."
+    ctx = "Give me 1 nice prompt for ai image generator, that needs to generate \"" + sys.argv[2] + "\". It must be EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE BETWEEN \" MARKS."
 
 print('Generating output for question: ' + ctx)
 
