@@ -55,11 +55,8 @@ ctx = data["prompt"] + '\n' + '\n'.join(usedPrompts)
 def callback(s):
     print(s, end='', flush=True)
 
-    with open('./prompt.txt', 'w') as file:
+    with open('./prompt.txt', 'a') as file:
         file.write(s)
-
-    print('Generated prompt.txt')
-
 
 args = PIPELINE_ARGS(temperature = 1.0, top_p = 0.7, top_k = 100, # top_k = 0 then ignore
                      alpha_frequency = 0.25,
@@ -69,5 +66,16 @@ args = PIPELINE_ARGS(temperature = 1.0, top_p = 0.7, top_k = 100, # top_k = 0 th
                      token_stop = [], # stop generation whenever you see any token here
                      chunk_len = 256) # split input into chunks to save VRAM (shorter -> slower)
 
-print('Generating output...')
-pipeline.generate(ctx, token_count=200, args=args, callback=callback)
+print('Generating output for question: ' + ctx)
+pipeline.generate(ctx, token_count=1000, args=args, callback=callback)
+
+print('\n')
+out, state = model.forward([187, 510, 1563, 310, 247], None)
+print(out.detach().cpu().numpy())                   # get logits
+out, state = model.forward([187, 510], None)
+out, state = model.forward([1563], state)           # RNN has state (use deepcopy to clone states)
+out, state = model.forward([310, 247], state)
+print(out.detach().cpu().numpy())                   # same result as above
+print('\n')
+
+print('Generated prompt.txt')
