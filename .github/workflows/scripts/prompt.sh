@@ -1,5 +1,5 @@
-pip install --upgrade pip
-pip install g4f
+pip install -U pip
+pip install -U g4f
 
 mkdir -p ./tmp
 python prompt.py $CONFIGPATH
