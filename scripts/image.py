@@ -54,7 +54,7 @@ print("Downloaded from: " + model["repo_url"])
 print("Inference count: " + str(model["inference_count"]))
 
 image = generate_images(context, width=properties["x"], height=properties["y"], prompt=prompt, seed=42, num_inference_steps=model["inference_count"])
-save_images(image, dir_path="./tmp/image/gen/")
+save_images(image, dir_path="./tmp/image/")
 
 unload_model(context, 'stable-diffusion')
 

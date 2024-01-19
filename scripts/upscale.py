@@ -1,4 +1,4 @@
-import json, sys, urllib.request, subprocess
+import json, sys, urllib.request, os
 from tqdm import tqdm
 
 if len(sys.argv) != 2:
@@ -9,7 +9,7 @@ with open(sys.argv[1] + '/models.json', 'r') as file:
     data = json.load(file)
     model = data['upscaler']
 
-with urllib.request.urlopen(model["inference_script"]) as response, open('./tmp/inference_script.json', 'wb') as output_file:
+with urllib.request.urlopen(model["inference_script"]) as response, open('./tmp/inference_script.py', 'wb') as output_file:
     print('Downloading [' + model["inference_script"] + "]...")
      # Get the total file size in bytes
     file_size = int(response.getheader('Content-Length', 0))
@@ -31,6 +31,7 @@ print("| Starting downloaded script...")
 print("From: " + model["inference_script"])
 print("Model name: " + model["name"])
 
-subprocess.run(['python', './tmp/inference_script.json', '-n', model["name"], '-i', './tmp/image/gen/' '-o', './tmp/image/', '--fp32'], check=True)
+command = f'python ./tmp/inference_script.py -i ./tmp/image/ -n {model["name"]} -o ./tmp/image/gen/ --fp32'
+os.system(command)
 
 print("Upscaled image!")
