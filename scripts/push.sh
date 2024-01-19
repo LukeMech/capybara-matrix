@@ -1,5 +1,5 @@
 mkdir -p ../data/images/capy
-cp ./tmp/*.png ../data/images/capy/
+cp ./tmp/*.jpg ../data/images/capy/
 ls ../data/images/capy
 ls ../
 cp ./tmp/prompt.txt ./prompt.txt

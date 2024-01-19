@@ -2,10 +2,12 @@ pip install -U pip
 pip install -U xformers --index-url https://download.pytorch.org/whl/cu121
 pip install -U sdkit tqdm realesrgan
 
-mkdir -p ./tmp/image/gen
+mkdir -p ./tmp/image
 python image.py $CONFIGPATH $MATRIXMODEL
 
 mkdir -p ./out
 python upscale.py $CONFIGPATH
+python ./tmp/inference_script.py -i ./tmp/image/1.jpg --model_path ./tmp/model.pth -o ./out/ --fp32 -s 3
 
-mv ./out/*.png ./out/$(date '+%Y%m%d%H%M%S')-$JOBINDEX.png
+echo "Upscaled image!"
+mv ./out/*.jpg ./out/$(date '+%Y%m%d%H%M%S')-$JOBINDEX.jpg
