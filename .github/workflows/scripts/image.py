@@ -3,7 +3,8 @@ properties = {
     "y": 720,
 }
  
-import sdkit, json, sys, urllib.request, tqdm
+import sdkit, json, sys, urllib.request
+from tqdm import tqdm
 from sdkit.generate import generate_images
 from sdkit.models import load_model
 from sdkit.utils import log, save_images
