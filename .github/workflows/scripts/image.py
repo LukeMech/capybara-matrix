@@ -3,7 +3,7 @@ properties = {
     "y": 720,
 }
  
-import sdkit, json, sys, urllib.request
+import sdkit, json, sys, urllib.request, tqdm
 from sdkit.generate import generate_images
 from sdkit.models import load_model
 from sdkit.utils import log, save_images
@@ -27,6 +27,20 @@ with open(sys.argv[1] + '/models.json', 'r') as file:
     model["name"] = sys.argv[2]
 
 with urllib.request.urlopen(model["repo_url"]) as response, open('./tmp/imggenmodel', 'wb') as output_file:
+    print('Downloading [' + model["repo_url"] + "]...")
+     # Get the total file size in bytes
+    file_size = int(response.getheader('Content-Length', 0))
+    # Initialize the tqdm progress bar
+    progress_bar = tqdm(total=file_size, unit='B', unit_scale=True)
+    # Download and write to the local file with progress update
+    while True:
+        buffer = response.read(8192)  # Adjust the buffer size as needed
+        if not buffer:
+            break
+        output_file.write(buffer)
+        progress_bar.update(len(buffer))
+    # Close the progress bar
+    progress_bar.close()
     output_file.write(response.read())
 
 context.model_paths[model["sdkit_modeltype"]] = './tmp/imggenmodel'

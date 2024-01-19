@@ -1,5 +1,5 @@
 pip install --upgrade pip
-pip install sdkit
+pip install sdkit tqdm
 
 mkdir -p ./tmp
 python image.py $CONFIGPATH $MATRIXMODEL

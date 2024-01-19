@@ -1,4 +1,5 @@
 import json, sys, os, urllib.request
+from tqdm import tqdm
 
 os.environ['RWKV_JIT_ON'] = '1'
 os.environ["RWKV_CUDA_ON"] = '0'
@@ -10,17 +11,43 @@ with open(sys.argv[1] + '/langModel.json', 'r') as file:
     data = json.load(file)
 
 with urllib.request.urlopen(data["model"]) as response, open('./tmp/model.pth', 'wb') as output_file:
-    output_file.write(response.read())
+    print('Downloading [' + data["model"] + "]...")
+     # Get the total file size in bytes
+    file_size = int(response.getheader('Content-Length', 0))
+    # Initialize the tqdm progress bar
+    progress_bar = tqdm(total=file_size, unit='B', unit_scale=True)
+    # Download and write to the local file with progress update
+    while True:
+        buffer = response.read(8192)  # Adjust the buffer size as needed
+        if not buffer:
+            break
+        output_file.write(buffer)
+        progress_bar.update(len(buffer))
+    # Close the progress bar
+    progress_bar.close()
 
 # 20B_tokenizer.json is in https://github.com/BlinkDL/ChatRWKV
 with urllib.request.urlopen(data["tokenizer"]) as response, open('./tmp/chattokenizer.json', 'wb') as output_file:
-    output_file.write(response.read())
+    print('Downloading [' + data["tokenizer"] + "]...")
+    # Get the total file size in bytes
+    file_size = int(response.getheader('Content-Length', 0))
+    # Initialize the tqdm progress bar
+    progress_bar = tqdm(total=file_size, unit='B', unit_scale=True)
+    # Download and write to the local file with progress update
+    while True:
+        buffer = response.read(8192)  # Adjust the buffer size as needed
+        if not buffer:
+            break
+        output_file.write(buffer)
+        progress_bar.update(len(buffer))
+    # Close the progress bar
+    progress_bar.close()
 
 # download models: https://huggingface.co/BlinkDL
 model = RWKV(model='./tmp/model.pth', strategy='cpu fp32')
 pipeline = PIPELINE(model, "./tmp/chattokenizer.json") 
 
-with open(sys.argv[1] + '/prompts.json', 'r') as file:
+with open(sys.argv[1] + '/usedPrompts.json', 'r') as file:
     usedPrompts = json.load(file)
 
 ctx = data["prompt"] + '\n' + '\n'.join(usedPrompts)
@@ -31,6 +58,9 @@ def callback(s):
     with open('./prompt.txt', 'w') as file:
         file.write(s)
 
+    print('Generated prompt.txt')
+
+
 args = PIPELINE_ARGS(temperature = 1.0, top_p = 0.7, top_k = 100, # top_k = 0 then ignore
                      alpha_frequency = 0.25,
                      alpha_presence = 0.25,
@@ -39,4 +69,5 @@ args = PIPELINE_ARGS(temperature = 1.0, top_p = 0.7, top_k = 100, # top_k = 0 th
                      token_stop = [], # stop generation whenever you see any token here
                      chunk_len = 256) # split input into chunks to save VRAM (shorter -> slower)
 
+print('Generating output...')
 pipeline.generate(ctx, token_count=200, args=args, callback=callback)
