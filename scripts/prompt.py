@@ -1,6 +1,6 @@
 import g4f, json, sys
 
-if len(sys.argv) != 2:
+if len(sys.argv) != 2 and len(sys.argv) != 3:
     print("Json config file path missing!")
     sys.exit(1)
     
@@ -11,6 +11,10 @@ with open(sys.argv[1] + '/usedPrompts.json', 'r') as file:
     usedPrompts = json.load(file)
 
 ctx = data["prompt"] + "It must be EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE BETWEEN \" MARKS. You can get inspired (althought you better find new idea), but can't use exactly these prompts: " + '\n' + '\n'.join(usedPrompts)
+
+# Enhance non-auto prompt
+if len(sys.argv) == 3:
+    ctx = sys.argv[2] + "It must be EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE BETWEEN \" MARKS."
 
 print('Generating output for question: ' + ctx)
 
