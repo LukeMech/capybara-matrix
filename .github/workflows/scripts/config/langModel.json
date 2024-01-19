@@ -1,5 +1,5 @@
 {
     "model": "gpt-4",
-    "prompt": "Give me 1 nice prompt (EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE ONLY PROMPT) for ai image generator, that needs to generate some capybara images.",
-    "providers": ["Liaobots", "Phind", "GeekGpt"]
+    "prompt": "Give me 1 nice prompt for ai image generator, that needs to generate some capybara images.",
+    "providers": ["Bing", "Liaobots", "Phind", "GeekGpt"]
 }

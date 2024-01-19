@@ -9,6 +9,7 @@ with open(sys.argv[1] + '/usedPrompts.json', 'r') as file:
 random_provider = random.choice(data["providers"])
 random_provider_lower = random_provider.lower()
 
+
 if random_provider_lower == 'liaobots': 
     provider = g4f.Provider.Liaobots
 elif random_provider_lower == 'phind':
@@ -16,9 +17,9 @@ elif random_provider_lower == 'phind':
 elif random_provider_lower == 'geekgpt':
     provider = g4f.Provider.GeekGpt
 else:
-    provider = g4f.Provider.GeekGpt
+    provider = g4f.Provider.Bing
 
-ctx = data["prompt"] + " You can get inspired (althought you better find new idea), but can't use exactly these prompts: " + '\n' + '\n'.join(usedPrompts)
+ctx = data["prompt"] + "It must be EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE BETWEEN \" MARKS. You can get inspired (althought you better find new idea), but can't use exactly these prompts: " + '\n' + '\n'.join(usedPrompts)
 
 print('Generating output for question: ' + ctx)
 print('Using model: ' + data["model"])
@@ -30,9 +31,19 @@ response = g4f.ChatCompletion.create(
     messages=[{"role": "user", "content": ctx}]
 )
 
-print('Writing to file: ' + response)
+# Extract text inside quotes
+inside_quotes = False
+result = []
+for char in response:
+    if char == '"':
+        inside_quotes = not inside_quotes
+    elif inside_quotes:
+        result.append(char)
+result = ''.join(result)
+
+print('Writing to file: ' + result)
 
 with open('./prompt.txt', 'w') as file:
-    file.write(response)
+    file.write(result)
 
 print('Generated prompt.txt')
