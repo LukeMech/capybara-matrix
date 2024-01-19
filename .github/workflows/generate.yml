@@ -20,7 +20,7 @@ jobs:
         python-version: 3.11
 
     - name: Run prompt generator scripts
-      working-directory: .github/workflows/scripts
+      working-directory: scripts
       run: |
         export CONFIGPATH=config
         sh prompt.sh
@@ -29,7 +29,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: prompt
-        path: .github/workflows/scripts/prompt.txt
+        path: scripts/prompt.txt
 
 
   image:
@@ -56,10 +56,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: prompt
-        path: .github/workflows/scripts
+        path: scripts
 
     - name: Config & run generator
-      working-directory: .github/workflows/scripts
+      working-directory: scripts
       run: |
         export CONFIGPATH=config
         export MATRIXMODEL=${{ matrix.model }}
@@ -70,7 +70,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: capybara-${{ strategy.job-index }}
-        path: .github/workflows/scripts/tmp/image
+        path: scripts/tmp/image
 
 
   push:
@@ -92,10 +92,10 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
-        path: .github/workflows/scripts/tmp
+        path: scripts/tmp
 
     - name: Cleanup repository
-      working-directory: .github/workflows/scripts
+      working-directory: scripts
       run: |
         export CONFIGPATH=config
         sh push.sh  

@@ -1,5 +1,9 @@
 import g4f, json, sys, random
 
+if len(sys.argv) != 2:
+    print("Json config file path missing!")
+    sys.exit(1)
+    
 with open(sys.argv[1] + '/langModel.json', 'r') as file:
     data = json.load(file)
 

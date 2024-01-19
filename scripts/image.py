@@ -1,13 +1,13 @@
 properties = {
-    "x": 1280,
-    "y": 720,
+    "x": 960,
+    "y": 540,
 }
  
 import sdkit, json, sys, urllib.request
 from tqdm import tqdm
 from sdkit.generate import generate_images
-from sdkit.models import load_model
-from sdkit.utils import log, save_images
+from sdkit.models import load_model, unload_model
+from sdkit.utils import save_images
 
 context = sdkit.Context()
 context.device = "cpu"
@@ -16,11 +16,8 @@ if len(sys.argv) != 3:
     print("Json config file path or model name missing!")
     sys.exit(1)
 
-# Choose prompt
 with open('./prompt.txt', 'r') as file:
     prompt = file.read()
-
-# Choose AI model
 
 with open(sys.argv[1] + '/models.json', 'r') as file:
     data = json.load(file)
@@ -44,19 +41,21 @@ with urllib.request.urlopen(model["repo_url"]) as response, open('./tmp/'+model[
     progress_bar.close()
     output_file.write(response.read())
 
-context.model_paths[model["sdkit_modeltype"]] = './tmp/'+model["name"]
-load_model(context, model["sdkit_modeltype"])
+context.model_paths['stable-diffusion'] = './tmp/'+model["name"]
+load_model(context, 'stable-diffusion')
 
-log.info("| Starting generation with:")
-log.info("Dimensions: " + str(properties["x"]) + "px x " + str(properties["y"]) + "px")
-log.info("Request: " + prompt)
+print("| Starting generation with:")
+print("Dimensions: " + str(properties["x"]) + "px x " + str(properties["y"]) + "px")
+print("Request: " + prompt)
 
-log.info("| Using:")
-log.info("Model: " + model["name"])
-log.info("Downloaded from: " + model["repo_url"])
-log.info("Inference count: " + str(model["inference_count"]))
+print("| Using:")
+print("Model: " + model["name"])
+print("Downloaded from: " + model["repo_url"])
+print("Inference count: " + str(model["inference_count"]))
 
 image = generate_images(context, width=properties["x"], height=properties["y"], prompt=prompt, seed=42, num_inference_steps=model["inference_count"])
-save_images(image, dir_path="./tmp")
+save_images(image, dir_path="./tmp/image/gen/")
 
-log.info("Generated images!")
+unload_model(context, 'stable-diffusion')
+
+print("Generated default image, starting upscaler...")
