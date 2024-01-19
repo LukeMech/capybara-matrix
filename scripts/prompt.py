@@ -30,8 +30,11 @@ result = []
 for char in response:
     if char == '"':
         inside_quotes = not inside_quotes
+        if not inside_quotes:
+            break  # Break out of the loop after the first closing quote
     elif inside_quotes:
         result.append(char)
+
 result = ''.join(result)
 
 print('Writing to file: ' + result)
