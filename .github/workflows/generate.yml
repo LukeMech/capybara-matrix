@@ -7,18 +7,7 @@ on:
     - cron: '0 */3 * * *'  # Repeat every 3h
 
 jobs:
-  image:
-    env:
-      python: 3.11
-
-    strategy:
-      matrix:
-        model: [
-          sd_xl_turbo_1.0, 
-          v2-1_768,
-          v1-5
-        ]
-
+  prompt:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,47 +17,88 @@ jobs:
     - name: Setup python
       uses: actions/setup-python@v5
       with:
-        python-version: ${{ env.python }}
-        
-    - name: Run generator scripts
+        python-version: 3.11
+
+    - name: Run prompt generator scripts
+      id: set_variable
       run: |
-        sh scripts/install.sh
-        python scripts/genPrompts.py
-        python scripts/genImg.py scripts/config ${{ matrix.model }}
-        mv tmp/images/image_0.jpeg tmp/images/$(date '+%Y%m%d%H%M%S')-${{ strategy.job-index }}.jpeg
+        export CONFIGPATH = .github/workflows/scripts/config
+        sh .github/workflows/scripts/prompt.sh
+
+    - name: Upload prompt
+      uses: actions/upload-artifact@v4
+      with:
+        name: prompt
+        path: ~/prompt.txt
+
+
+
+
+  image:
+    strategy:
+      matrix:
+        model: [
+          sd_xl_turbo_1.0, 
+          v2-1_768,
+          v1-5
+        ]
+    runs-on: ubuntu-latest
+    needs: prompt
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v4
+
+    - name: Setup python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+        
+    - name: Download prompt
+      uses: actions/download-artifact@v4
+      with:
+        name: prompt
+        path: ~/
+
+    - name: Config & run generator
+      run: |
+        export CONFIGPATH = .github/workflows/scripts/config
+        export MATRIXMODEL = ${{ matrix.model }}
+        export JOBINDEX = ${{ strategy.job-index }}
+        sh .github/workflows/scripts/image.sh   
 
     - name: Upload image
       uses: actions/upload-artifact@v4
       with:
         name: capybara-${{ strategy.job-index }}
-        path: ./tmp/images
+        path: ~/tmp/image
 
 
   push:
     runs-on: ubuntu-latest
     needs: image
-    steps:
 
+    steps:
     - name: Clone repository
       uses: actions/checkout@v4
       with: 
         persist-credentials: false
         fetch-depth: 0
 
-    - name: Download images from artifacts
+    - name: Setup python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+
+    - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
-        path: tmp
+        path: ~/tmp
 
-    - name: Push new images
+    - name: Cleanup repository
       run: |
-        mkdir -p ./images/capy/
-        cp out/*/*.jpeg ./data/images/capy/
-        rm -rf out
-        git config --global user.name image-gen
-        git config --global user.email github-actions@github.com
-        git add .
-        git commit -m "Next capy photos"
+        export CONFIGPATH = .github/workflows/scripts/config
+        sh .github/workflows/scripts/push.sh  
 
     - name: Push changes
       uses: ad-m/github-push-action@master
