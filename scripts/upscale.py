@@ -31,7 +31,7 @@ print("| Starting downloaded script...")
 print("From: " + model["inference_script"])
 print("Model name: " + model["name"])
 
-command = f'python ./tmp/inference_script.py -i ./tmp/image/ -n {model["name"]} -o ./tmp/image/gen/ --fp32'
+command = f'python ./tmp/inference_script.py -i ./tmp/image/1.jpg -n {model["name"]} -o ./tmp/image/gen/1.jpg --fp32'
 os.system(command)
 
 print("Upscaled image!")
