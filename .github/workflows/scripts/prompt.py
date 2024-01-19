@@ -10,13 +10,13 @@ random_provider = random.choice(data["providers"])
 random_provider_lower = random_provider.lower()
 
 if random_provider_lower == 'liaobots': 
-    provider = g4f.Providers.Liaobots
+    provider = g4f.Provider.Liaobots
 elif random_provider_lower == 'phind':
-    provider = g4f.Providers.Phind
+    provider = g4f.Provider.Phind
 elif random_provider_lower == 'geekgpt':
-    provider = g4f.Providers.GeekGpt
+    provider = g4f.Provider.GeekGpt
 else:
-    provider = g4f.Providers.GeekGpt
+    provider = g4f.Provider.GeekGpt
 
 ctx = data["prompt"] + " You can get inspired (althought you better find new idea), but can't use exactly these prompts: " + '\n' + '\n'.join(usedPrompts)
 
