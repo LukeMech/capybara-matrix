@@ -1,6 +1,5 @@
 {
-    "model": "https://huggingface.co/BlinkDL/rwkv-5-world/resolve/main/RWKV-5-World-3B-v2-20231118-ctx16k.pth",
-    "tokenizer": "https://raw.githubusercontent.com/BlinkDL/ChatRWKV/main/20B_tokenizer.json",
-
-    "prompt": "Give me 1 nice prompt (EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE ONLY PROMPT) for ai image generator, that needs to generate some capybara images. You can get inspired (althought you better find new idea), but can't use exactly these prompts: "
+    "model": "gpt-4",
+    "prompt": "Give me 1 nice prompt (EXACTLY AND ONLY 1 PROMPT, FORMATTED TO BE ONLY PROMPT) for ai image generator, that needs to generate some capybara images.",
+    "providers": ["Liaobots", "Phind", "GeekGpt"]
 }

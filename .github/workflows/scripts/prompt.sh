@@ -1,6 +1,6 @@
-# pip install --upgrade pip
-# pip install rwkv torch numpy tqdm
+pip install --upgrade pip
+pip install g4f
 
-# mkdir ./tmp
-# python prompt.py $CONFIGPATH
-echo "Nice capybara photo" > prompt.txt
+mkdir -p ./tmp
+python prompt.py $CONFIGPATH
+# echo "Nice capybara photo" > prompt.txt
