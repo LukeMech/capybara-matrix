@@ -17,6 +17,7 @@
          "repo_url": "https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt",
          "inference_count": 20
      },
+     "online-bing": {},
 
      "upscaler": {
          "inference_script": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/master/inference_realesrgan.py",
