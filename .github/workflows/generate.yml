@@ -37,7 +37,7 @@ jobs:
       run: |
         export CONFIGPATH=config
 
-        if [ ${{ github.event.inputs.prompt && !github.event.inputs.enhance_prompt }} == true ]; then
+        if [ -n ${{ github.event.inputs.prompt }} && ${{ !github.event.inputs.enhance_prompt }} == true ]; then
 
           echo "Using prompt from input"
           echo "${{ github.event.inputs.prompt }}" > prompt.txt
@@ -49,7 +49,7 @@ jobs:
             export PROMPT="${{ github.event.inputs.prompt }}"
           fi
 
-          sh prompt.sh 
+          sh prompt.sh
 
         fi
 
