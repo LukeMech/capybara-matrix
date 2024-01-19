@@ -48,6 +48,7 @@ jobs:
         ]
     runs-on: ubuntu-latest
     needs: prompt
+    if: ${{ needs.prompt.result != 'failure' }}
 
     steps:
     - name: Clone repository
