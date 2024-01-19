@@ -13,10 +13,6 @@
         "repo_url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors",
         "inference_count": 20
      },
-     "sd-v1-4-full-ema.ckpt": {
-         "repo_url": "https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt",
-         "inference_count": 20
-     },
 
      "upscaler": {
          "inference_script": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/master/inference_realesrgan.py",
