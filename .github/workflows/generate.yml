@@ -22,7 +22,7 @@ jobs:
     - name: Run prompt generator scripts
       id: set_variable
       run: |
-        export CONFIGPATH = .github/workflows/scripts/config
+        export CONFIGPATH=.github/workflows/scripts/config
         sh .github/workflows/scripts/prompt.sh
 
     - name: Upload prompt
@@ -62,9 +62,9 @@ jobs:
 
     - name: Config & run generator
       run: |
-        export CONFIGPATH = .github/workflows/scripts/config
-        export MATRIXMODEL = ${{ matrix.model }}
-        export JOBINDEX = ${{ strategy.job-index }}
+        export CONFIGPATH=.github/workflows/scripts/config
+        export MATRIXMODEL=${{ matrix.model }}
+        export JOBINDEX=${{ strategy.job-index }}
         sh .github/workflows/scripts/image.sh   
 
     - name: Upload image
@@ -97,7 +97,7 @@ jobs:
 
     - name: Cleanup repository
       run: |
-        export CONFIGPATH = .github/workflows/scripts/config
+        export CONFIGPATH=.github/workflows/scripts/config
         sh .github/workflows/scripts/push.sh  
 
     - name: Push changes
