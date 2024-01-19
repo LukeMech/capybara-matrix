@@ -58,7 +58,7 @@ def callback(s):
     with open('./prompt.txt', 'a') as file:
         file.write(s)
 
-args = PIPELINE_ARGS(temperature = 1.0, top_p = 0.7, top_k = 100, # top_k = 0 then ignore
+args = PIPELINE_ARGS(temperature = 1.0, top_p = 0.5, top_k = 0, # top_k = 0 then ignore
                      alpha_frequency = 0.25,
                      alpha_presence = 0.25,
                      alpha_decay = 0.996, # gradually decay the penalty
@@ -67,7 +67,7 @@ args = PIPELINE_ARGS(temperature = 1.0, top_p = 0.7, top_k = 100, # top_k = 0 th
                      chunk_len = 256) # split input into chunks to save VRAM (shorter -> slower)
 
 print('Generating output for question: ' + ctx)
-pipeline.generate(ctx, token_count=1000, args=args, callback=callback)
+pipeline.generate(ctx, token_count=200, args=args, callback=callback)
 
 print('\n')
 out, state = model.forward([187, 510, 1563, 310, 247], None)
