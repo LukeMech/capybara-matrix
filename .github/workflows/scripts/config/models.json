@@ -5,7 +5,7 @@
        "inference_count": 13
     },
 
-    "gitv2-1_768-ema-pruned.safetensors": {
+    "v2-1_768-ema-pruned.safetensors": {
         "repo_url": "https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors",
         "sdkit_modeltype": "stable-diffusion",
         "inference_count": 25
