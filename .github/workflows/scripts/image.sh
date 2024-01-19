@@ -1,5 +1,5 @@
 pip install --upgrade pip
-pip install sdkit tqdm
+pip install sdkit tqdm xformers --index-url https://download.pytorch.org/whl/cu121
 
 mkdir -p ./tmp/image
 python image.py $CONFIGPATH $MATRIXMODEL
