@@ -27,7 +27,7 @@ with open(sys.argv[1] + '/models.json', 'r') as file:
     model = data[sys.argv[2]]
     model["name"] = sys.argv[2]
 
-with urllib.request.urlopen(model["repo_url"]) as response, open('./tmp/imggenmodel', 'wb') as output_file:
+with urllib.request.urlopen(model["repo_url"]) as response, open('./tmp/'+model["name"], 'wb') as output_file:
     print('Downloading [' + model["repo_url"] + "]...")
      # Get the total file size in bytes
     file_size = int(response.getheader('Content-Length', 0))
@@ -44,7 +44,7 @@ with urllib.request.urlopen(model["repo_url"]) as response, open('./tmp/imggenmo
     progress_bar.close()
     output_file.write(response.read())
 
-context.model_paths[model["sdkit_modeltype"]] = './tmp/imggenmodel'
+context.model_paths[model["sdkit_modeltype"]] = './tmp/'+model["name"]
 load_model(context, model["sdkit_modeltype"])
 
 log.info("| Starting generation with:")
