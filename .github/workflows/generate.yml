@@ -13,8 +13,6 @@ on:
         type: boolean
         description: Forward prompt through language model for better prompt
 
-  schedule:
-    - cron: '0 */3 * * *'  # Repeat every 3h
 
 
 jobs:
